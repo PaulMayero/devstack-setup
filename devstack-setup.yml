@@ -1,0 +1,18 @@
+- name: Vagrant devstack setup
+  hosts: devstack-vm
+  remote_user: vagrant
+  gather_facts: true
+  environment:
+    GIT_SSL_NO_VERIFY: true
+  tasks:
+  - name: Clone Devstack from Opendev
+    command: /usr/bin/git clone https://opendev.org/openstack/devstack
+  - name: Create local.conf
+    template:
+      src: "local.conf.j2"
+      dest: "/home/vagrant/devstack/local.conf"
+  - name: Run stack.sh bash script
+    command: /home/vagrant/devstack/stack.sh
+    register: command_output
+  - debug:
+      var: command_output.stdout_lines
