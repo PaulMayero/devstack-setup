@@ -6,6 +6,7 @@
     GIT_SSL_NO_VERIFY: true
   tasks:
   - name: Git review installation
+    become: true
     apt:
       name: git-review
       state: present
