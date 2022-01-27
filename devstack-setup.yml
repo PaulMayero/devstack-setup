@@ -6,18 +6,36 @@
     GIT_SSL_NO_VERIFY: true
   tasks:
   - name: Git review installation
-    become: true
-    apt:
-      name: git-review
-      state: present
-  - name: Clone Devstack from Opendev
-    command: /usr/bin/git clone https://opendev.org/openstack/devstack
-  - name: Create local.conf
-    template:
-      src: "local.conf.j2"
-      dest: "/home/vagrant/devstack/local.conf"
-  - name: Run stack.sh bash script
-    command: /home/vagrant/devstack/stack.sh
-    register: command_output
-  - debug:
-      var: command_output.stdout_lines
+    block:
+      - name: Update and upgrade apt packages
+        become: true
+        apt:
+          update-cache: yes
+          upgrade: yes
+          cache_valid_time: 86400
+      - name: Git review installation using apt
+        become: true
+        apt:
+          name: git-review
+          state: present
+    rescue:
+      - name: Install pip on ubuntu vm
+        become: true
+        apt:
+          name: python3-pip
+          state: latest
+      - name: Install git-review with pip
+        pip:
+          name: git-review
+    always:
+      - name: Clone Devstack from Opendev
+        command: /usr/bin/git clone https://opendev.org/openstack/devstack
+      - name: Create local.conf
+        template:
+          src: "local.conf.j2"
+          dest: "/home/vagrant/devstack/local.conf"
+      - name: Run stack.sh bash script
+        command: /home/vagrant/devstack/stack.sh
+        register: command_output
+      - debug:
+          var: command_output.stdout_lines
