@@ -18,6 +18,11 @@
         apt:
           name: git-review
           state: present
+      - name: Python-reno installation with apt
+        become: true
+        apt:
+          name: python3-reno
+          state: present
     rescue:
       - name: Install pip on ubuntu vm
         become: true
