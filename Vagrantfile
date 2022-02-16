@@ -1,12 +1,12 @@
 Vagrant.configure("2") do |config|
-    config.vm.define "devstack-vm-blog"
+    config.vm.define "devstack-lvm"
     config.vm.box = "ubuntu/focal64"
     #config.vm.network "private_network", ip: "10.123.123.123", nic_type: "virtio"
     config.vm.network "private_network", type: "dhcp", nic_type: "virtio"
     
 
     config.vm.provider "virtualbox" do |v|
-        v.name = "devstack-vm-blog"
+        v.name = "devstack-lvm"
         v.memory = 6144
         v.cpus = 3
         v.customize ["modifyvm", :id, "--nested-hw-virt", "on"]

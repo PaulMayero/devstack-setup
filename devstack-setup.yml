@@ -1,5 +1,5 @@
 - name: Vagrant devstack setup
-  hosts: devstack-vm-blog
+  hosts: devstack-lvm
   remote_user: vagrant
   gather_facts: true
   environment:

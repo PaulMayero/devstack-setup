@@ -1,8 +1,8 @@
-######################################################################
-# This local.conf sets up Devstack with manila enabling the ZFSOnLinux
+################################################################
+# This local.conf sets up Devstack with manila enabling the LVM
 # driver which operates in driver_handles_share_services=False
 # mode
-#######################################################################
+################################################################
 
 [[local|localrc]]
 ADMIN_PASSWORD=secret
@@ -14,6 +14,7 @@ DATA_DIR=/opt/stack/data
 LOGFILE=/opt/stack/devstacklog.txt
 HOST_IP={{ansible_all_ipv4_addresses[1]}}
 
+
 # Enabling manila services
 LIBS_FROM_GIT=python-manilaclient
 enable_plugin manila https://opendev.org/openstack/manila
@@ -21,18 +22,14 @@ enable_plugin manila-ui https://opendev.org/openstack/manila-ui
 enable_plugin manila-tempest-plugin https://opendev.org/openstack/manila-tempest-plugin
 
 
-# ZfsOnLinux Back end config options
+# LVM Backend config options
 MANILA_SERVICE_IMAGE_ENABLED=False
-SHARE_DRIVER=manila.share.drivers.zfsonlinux.driver.ZFSonLinuxShareDriver
-MANILA_ENABLED_BACKENDS=bangalore,mumbai
-MANILA_BACKEND1_CONFIG_GROUP_NAME=bangalore
-MANILA_BACKEND2_CONFIG_GROUP_NAME=mumbai
-MANILA_SHARE_BACKEND1_NAME=BANGALORE
-MANILA_SHARE_BACKEND2_NAME=MUMBAI
-MANILA_OPTGROUP_bangalore_driver_handles_share_servers=False
-MANILA_OPTGROUP_mumbai_driver_handles_share_servers=False
-MANILA_REPLICA_STATE_UPDATE_INTERVAL=60
-MANILA_DEFAULT_SHARE_TYPE_EXTRA_SPECS='snapshot_support=True create_share_from_snapshot_support=True replication_type=readable'
+SHARE_DRIVER=manila.share.drivers.lvm.LVMShareDriver
+MANILA_ENABLED_BACKENDS=chicago,denver
+MANILA_OPTGROUP_chicago_driver_handles_share_servers=False
+MANILA_OPTGROUP_denver_driver_handles_share_servers=False
+SHARE_BACKING_FILE_SIZE=32000M
+MANILA_DEFAULT_SHARE_TYPE_EXTRA_SPECS='snapshot_support=True create_share_from_snapshot_support=True revert_to_snapshot_support=True mount_snapshot_support=True'
 MANILA_CONFIGURE_DEFAULT_TYPES=True
 
 # Required for mounting shares
