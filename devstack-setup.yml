@@ -18,7 +18,7 @@
         apt:
           name: git-review
           state: present
-      - name: Python-reno installation with apt
+      - name: Python-reno installation with apt for creation of release notes
         become: true
         apt:
           name: python3-reno
