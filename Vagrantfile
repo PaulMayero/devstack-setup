@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
     config.vm.define "devstack-vm"
-    config.vm.box = "ubuntu/focal64"
+    config.vm.box = "bento/ubuntu-24.04"
     #config.vm.network "private_network", ip: "10.123.123.123", nic_type: "virtio"
     config.vm.network "private_network", type: "dhcp", nic_type: "virtio"
 
