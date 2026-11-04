@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "devstack-setup": {
+      "command": "/absolute/path/to/devstack-setup/.venv-mcp/bin/python",
+      "args": [
+        "/absolute/path/to/devstack-setup/assistant/mcp_server.py"
+      ]
+    }
+  }
+}

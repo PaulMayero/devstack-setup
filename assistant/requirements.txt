@@ -1,0 +1,2 @@
+# MCP Python SDK 2.x supports stdio and Streamable HTTP transports.
+mcp>=2.0,<3.0

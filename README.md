@@ -58,3 +58,33 @@ enabled in the installed DevStack version. `RUNNING` means systemd reports the
 unit active; it does not by itself verify that the service API is responding.
 The suggested next steps are local rules based on unit state and common log
 messages; inspect the journal before applying any suggested restart.
+
+## Connect an MCP chat host
+
+The MCP server runs on the host machine, from this repository, because it
+controls the Vagrant VM. It exposes status, start, destroy, and operation
+progress tools. Start and destroy run asynchronously; use the returned
+`operation_id` with `get_devstack_operation_status` to check progress.
+
+Create a separate Python environment and install the MCP SDK:
+
+```bash
+python3 -m venv .venv-mcp
+.venv-mcp/bin/pip install -r assistant/requirements.txt
+```
+
+Configure an MCP-compatible chat host to launch
+`.venv-mcp/bin/python /absolute/path/to/devstack-setup/assistant/mcp_server.py`
+as a **stdio** MCP server. MCP host configuration formats differ; use that
+command and argument in the host's local server configuration. A sample
+`mcpServers` entry is in `assistant/mcp_config.example.json`; replace both
+paths with absolute paths and adapt the wrapper shape to your host if needed.
+Keep the host and server local to the trusted machine because the server can
+start and inspect this repository's VM.
+
+Destroy support is disabled by default. To expose the destroy tool, set
+`DEVSTACK_MCP_ENABLE_DESTROY=1` in the MCP server's environment. Calling the
+tool then asks the connected host for direct user confirmation before
+destroying `devstack-vm` and its virtual disk. A host that cannot perform MCP
+user elicitation cannot destroy the VM. The tool never accepts a VM name or
+shell command from the model.

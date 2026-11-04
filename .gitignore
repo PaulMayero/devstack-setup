@@ -1,0 +1,4 @@
+.vagrant/
+.devstack-mcp/
+.venv-mcp/
+__pycache__/
