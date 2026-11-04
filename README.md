@@ -25,3 +25,36 @@ Git clone this repo and within the cloned directory run the command
 vagrant up
 ```
 Wait for 30 minutes for the set up to finish and enjoy your new devstack set up.
+
+## Check DevStack service status
+
+After provisioning completes, run the local status command inside the VM:
+
+```bash
+vagrant ssh -c devstack-status
+```
+
+The command checks the systemd state of each service listed in
+`assistant/expected_services.json`, prints recent journal output and cautious
+next-step guidance for services that are not active, and exits with status `1`
+if any configured service is not confirmed running. It is installed before
+`stack.sh` runs, so it is available for troubleshooting an unsuccessful setup.
+To get machine-readable output, use:
+
+```bash
+vagrant ssh -c 'devstack-status --json'
+```
+
+For more log context, inspect a reported unit directly, for example:
+
+```bash
+vagrant ssh -c 'sudo journalctl -u devstack@n-cpu.service -n 100 --no-pager'
+```
+
+The inventory covers baseline core services and Manila services configured by
+this repository. Update it if you change enabled services in `local.conf.j2`.
+A service reported as `NOT FOUND` may have a different unit name or may not be
+enabled in the installed DevStack version. `RUNNING` means systemd reports the
+unit active; it does not by itself verify that the service API is responding.
+The suggested next steps are local rules based on unit state and common log
+messages; inspect the journal before applying any suggested restart.

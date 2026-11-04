@@ -1,0 +1,20 @@
+{
+  "description": "Baseline service units for this repository's DevStack configuration; update this inventory when enabled services change.",
+  "services": [
+    {"name": "Keystone", "unit": "devstack@key.service"},
+    {"name": "Glance API", "unit": "devstack@g-api.service"},
+    {"name": "Placement API", "unit": "devstack@placement-api.service"},
+    {"name": "Nova API", "unit": "devstack@n-api.service"},
+    {"name": "Nova Scheduler", "unit": "devstack@n-sch.service"},
+    {"name": "Nova Conductor", "unit": "devstack@n-cond.service"},
+    {"name": "Nova Compute", "unit": "devstack@n-cpu.service"},
+    {"name": "Neutron Server", "unit": "devstack@q-svc.service"},
+    {"name": "Neutron DHCP Agent", "unit": "devstack@q-dhcp.service"},
+    {"name": "Neutron L3 Agent", "unit": "devstack@q-l3.service"},
+    {"name": "Neutron Metadata Agent", "unit": "devstack@q-meta.service"},
+    {"name": "Apache HTTP server (OpenStack APIs and Horizon)", "unit": "apache2.service"},
+    {"name": "Manila Scheduler", "unit": "devstack@m-sch.service"},
+    {"name": "Manila Share", "unit": "devstack@m-shr.service"},
+    {"name": "Manila Data", "unit": "devstack@m-dat.service"}
+  ]
+}

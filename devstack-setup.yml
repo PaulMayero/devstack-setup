@@ -11,6 +11,38 @@
     template:
       src: "local.conf.j2"
       dest: "/home/vagrant/devstack/local.conf"
+  - name: Create devstack-status configuration directory
+    become: true
+    file:
+      path: /etc/devstack-status
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+  - name: Install devstack-status service inventory
+    become: true
+    copy:
+      src: assistant/expected_services.json
+      dest: /etc/devstack-status/expected_services.json
+      owner: root
+      group: root
+      mode: '0644'
+  - name: Install devstack-status command
+    become: true
+    copy:
+      src: assistant/status.py
+      dest: /usr/local/bin/devstack-status
+      owner: root
+      group: root
+      mode: '0755'
+  - name: Install devstack-status diagnostic guidance
+    become: true
+    copy:
+      src: assistant/diagnose.py
+      dest: /usr/local/bin/diagnose.py
+      owner: root
+      group: root
+      mode: '0644'
   - name: Run stack.sh bash script
     command: /home/vagrant/devstack/stack.sh
     register: command_output
